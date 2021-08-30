@@ -74,9 +74,7 @@ class Tree
   def height(node = root)
     return -1 unless node
 
-    left_height  = height(node.left)
-    right_height = height(node.right)
-    left_height > right_height ? left_height + 1 : right_height + 1
+    [height(node.left), height(node.right)].max + 1
   end
 
   def depth(node)
