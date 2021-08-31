@@ -104,7 +104,7 @@ class Tree
   def build_tree(array)
     return if array.empty?
 
-    mid  = ((array.length - 1) / 2).floor
+    mid  = ((array.length - 1) / 2.0).floor
     node = Node.new(array[mid])
 
     node.left  = build_tree(array[0...mid])
