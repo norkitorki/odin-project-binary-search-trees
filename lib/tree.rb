@@ -7,7 +7,7 @@ class Tree
   attr_reader :root
 
   def initialize(array)
-    @root  = build_tree(array.sort.uniq)
+    @root = build_tree(array.sort.uniq)
   end
 
   def insert(value)
@@ -20,21 +20,25 @@ class Tree
     end
   end
 
-  def delete(value)
-    raise StandardError, 'node could not be found' unless find(value)
+  def delete(value, node = root)
+    return unless node
 
-    values = inorder.reject { |v| v == value }
-    @root = build_tree(values)
-    value
+    if value < node.data
+      node.left = delete(value, node.left)
+    else
+      node.right = delete(value, node.right)
+    end
+    node.data == value ? remove_node(node) : node
   end
 
   def find(value)
     node = root
-    until node.nil? || node.data == value
+    until node.nil? # || node.data == value
       yield node if block_given?
+      return node if node.data == value
+
       node = node.data > value ? node.left : node.right
     end
-    node
   end
 
   def level_order(node = root)
@@ -80,7 +84,7 @@ class Tree
 
     depth = 0
     find(node.data) { depth += 1 }
-    depth
+    depth - 1
   end
 
   def depth_recursive(node, root = self.root)
@@ -107,6 +111,14 @@ class Tree
 
     node.left  = build_tree(array[0...mid])
     node.right = build_tree(array[mid + 1..-1])
+    node
+  end
+
+  def remove_node(node)
+    return node.left || node.right if node.left.nil? || node.right.nil?
+
+    node.data = inorder.bsearch { |v| v > node.data }
+    node.right = delete(node.data, node.right)
     node
   end
 end
