@@ -33,7 +33,7 @@ class Tree
 
   def find(value)
     node = root
-    until node.nil? # || node.data == value
+    until node.nil?
       yield node if block_given?
       return node if node.data == value
 
