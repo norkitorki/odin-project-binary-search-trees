@@ -80,11 +80,7 @@ class Tree
   end
 
   def depth(node)
-    return unless node
-
-    depth = 0
-    find(node.data) { depth += 1 }
-    depth - 1
+    node ? height - height(node) : nil
   end
 
   def depth_recursive(node, root = self.root)
