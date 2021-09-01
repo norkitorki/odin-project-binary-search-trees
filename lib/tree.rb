@@ -89,8 +89,8 @@ class Tree
     1 + depth_recursive(node, node.data <= root.data ? root.left : root.right)
   end
 
-  def balanced?
-    (height(root.left) - height(root.right)).abs <= 1
+  def balanced?(node = root)
+    node.nil? || (height(node.left) - height(node.right)).abs <= 1 && balanced?(node.left) && balanced?(node.right)
   end
 
   def rebalance
